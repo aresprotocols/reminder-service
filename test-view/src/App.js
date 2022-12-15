@@ -21,6 +21,7 @@ function App() {
         'link-usdt',
         'ada-usdt',
         'sol-usdt',
+        'ltc-usdt',
         'uni-usdt',
     ])
     const [currentSymbol, setCurrentSymbol] = useState(null)
