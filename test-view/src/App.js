@@ -27,7 +27,27 @@ function App() {
     const [anchorPrice, setAnchorPrice] = useState(null)
     const [reminderInterval, setReminderInterval] = useState(50)
     const [reminderRepeatCount, setReminderRepeatCount] = useState(2)
+    const [reminderList, setReminderList] = useState([])
 
+    function refreshReminderList(accAddress) {
+        return new Promise(async (resolve, reject) => {
+            console.log('RUN refreshReminderList. ', accAddress)
+            const api = await apiProvider()
+            const reminderIdsOpt = await api.query.aresReminder.ownerList(accAddress)
+            if(reminderIdsOpt.isSome){
+                console.log('reminderIdsOpt.isSome')
+                console.log('reminderIds = ', reminderIdsOpt.value.toHuman())
+                const tmp_list = []
+                for (const reminderId of reminderIdsOpt.value.toHuman()) {
+                    console.log('reminderId = ', reminderId)
+                    const reminderObj = await api.query.aresReminder.reminderList(reminderId)
+                    console.log('reminderObj = ', reminderObj.value.toHuman())
+                    tmp_list.push([reminderId, reminderObj.value.toHuman()])
+                }
+                setReminderList(tmp_list)
+            }
+        })
+    }
 
     async function bindUserInfo() {
         console.log('bindEmail22 = ', accAddress, bindEmail)
@@ -38,6 +58,31 @@ function App() {
             res = await sendBindInfos(`${process.env.REACT_APP_ENV_REMINDER_SERVICE}/bind_infos`, bindInfos)
         }
         console.log('bindUserInfo result = ', res)
+    }
+
+    function removeReminder(rid) {
+        return new Promise(async (resolve, reject) => {
+            const injector = await web3FromAddress(accAddress)
+            const api = await apiProvider()
+            const res = await api.tx.aresReminder.removeReminder(rid)
+                .signAndSend(accAddress, {signer: injector.signer})
+
+            console.log('res --', res)
+            const tmpReminderList = []
+            reminderList.forEach(data => {
+                if(data[0] != rid) {
+                    tmpReminderList.push(data)
+                }
+            })
+            setReminderList(tmpReminderList)
+            resolve(res)
+        })
+    }
+
+    function convertToPrice(priceParam, fractionLenParam) {
+        let price = priceParam.replaceAll(',', '')
+        let fractionLen = parseInt(fractionLenParam)
+        return price / 10**fractionLen
     }
 
     function setSymbol(symbol) {
@@ -77,6 +122,7 @@ function App() {
             const api = await apiProvider()
             const res = await api.tx.aresReminder.addReminder(condition, receiver, interval, repeatCount, tip, maxFee)
                 .signAndSend(accAddress, {signer: injector.signer})
+
             resolve(res)
         })
 
@@ -215,7 +261,7 @@ function App() {
                 <table>
                     <tbody>
                     <tr>
-                        <td colSpan='2'>添加价格提示器</td>
+                        <td colSpan='2'>添加价格提示</td>
                     </tr>
                     <tr>
                         <td>
@@ -252,6 +298,38 @@ function App() {
                     <tr>
                         <td><button onClick={()=>addNewReminder()}>添加价格提示</button></td>
                     </tr>
+                    </tbody>
+                </table>
+                <hr/>
+                <p>我的价格提示<button onClick={()=>refreshReminderList(accAddress)}>刷新</button></p>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>区块高度</td>
+                        <td>剩余次数</td>
+                        <td>触发间隔</td>
+                        <td>触发条件</td>
+                        <td>回调参数</td>
+                        <td></td>
+                    </tr>
+                    {reminderList.map(data=> {
+                        return <tr>
+                            <td>{data[1].createBn}</td>
+                            <td>{data[1].repeatCount}</td>
+                            <td>{data[1].intervalBn}</td>
+                            <td>
+                                {data[1].triggerCondition.TargetPriceModel.priceKey}
+                                [{convertToPrice(data[1].triggerCondition.TargetPriceModel.anchorPrice.number, data[1].triggerCondition.TargetPriceModel.anchorPrice.fractionLength)}]
+                            </td>
+                            <td>
+                                {data[1].triggerReceiver.HttpCallBack.url}
+                                [{data[1].triggerReceiver.HttpCallBack.sign}]
+                            </td>
+                            <td>
+                                <button onClick={()=>removeReminder(data[0])}>删除</button>
+                            </td>
+                        </tr>
+                    })}
                     </tbody>
                 </table>
             </header>
