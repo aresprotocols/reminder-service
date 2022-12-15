@@ -28,6 +28,8 @@ function App() {
     const [reminderInterval, setReminderInterval] = useState(50)
     const [reminderRepeatCount, setReminderRepeatCount] = useState(2)
     const [reminderList, setReminderList] = useState([])
+    const [symbolPrice, setSymbolPrice] = useState(null)
+
 
     function refreshReminderList(accAddress) {
         return new Promise(async (resolve, reject) => {
@@ -88,6 +90,14 @@ function App() {
     function setSymbol(symbol) {
         console.log('symbol - ', symbol)
         setCurrentSymbol(symbol)
+
+        return new Promise(async (resolve, reject) => {
+            const api = await apiProvider()
+            const tmpSymbol = await api.query.aresOracle.aresAvgPrice(symbol)
+            console.log('tmpSymbol = ', tmpSymbol.value.toHuman())
+            setSymbolPrice(tmpSymbol.value.toHuman())
+        })
+
     }
 
     function sendBindInfos (postRequest, bindInfos) {
@@ -275,6 +285,9 @@ function App() {
                                     return <option key={data} value={data}>{data}</option>
                                 })}
                             </select>
+                            <span>
+                                {symbolPrice?convertToPrice(symbolPrice[0],symbolPrice[1]):null}$
+                            </span>
                         </td>
                     </tr>
                     <tr>
