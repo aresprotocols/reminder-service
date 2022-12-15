@@ -34,7 +34,8 @@ function App() {
         let bindInfos = await bindUser(accAddress, bindEmail)
         let res = null
         if(bindInfos){
-            res = await sendBindInfos('http://localhost:9988/bind_infos', bindInfos)
+            // res = await sendBindInfos('http://localhost:9988/bind_infos', bindInfos)
+            res = await sendBindInfos(`${process.env.REACT_APP_ENV_REMINDER_SERVICE}/bind_infos`, bindInfos)
         }
         console.log('bindUserInfo result = ', res)
     }
@@ -87,7 +88,10 @@ function App() {
     }
 
     async function apiProvider () {
-        const WS_ENDPOINT = 'ws://127.0.0.1:9944'
+        // const WS_ENDPOINT = 'ws://127.0.0.1:9944'
+        // const WS_ENDPOINT = 'ws://167.179.96.132:9861'
+        const WS_ENDPOINT = process.env.REACT_APP_ENV_WS_ENDPOINT
+
         console.log(`Polkadot : ${WS_ENDPOINT}`)
         // Initialise the provider to connect to the local node
         const provider = new WsProvider(WS_ENDPOINT)
@@ -160,6 +164,17 @@ function App() {
     return (
         <div className="App">
             <header>
+                <table>
+                    <tr>
+                        <td>Reminder service</td>
+                        <td>{process.env.REACT_APP_ENV_REMINDER_SERVICE}</td>
+                    </tr>
+                    <tr>
+                        <td>RPC service</td>
+                        <td>{process.env.REACT_APP_ENV_WS_ENDPOINT}</td>
+                    </tr>
+                </table>
+                <hr/>
                 <table>
                     <tbody>
                     <tr>
