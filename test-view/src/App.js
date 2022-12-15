@@ -66,7 +66,7 @@ function App() {
 
             console.log('condition - ', condition)
 
-            const receiver = {'HttpCallBack': ['http://localhost:9988/reminder/callback', backSign]}
+            const receiver = {'HttpCallBack': [`${process.env.REACT_APP_ENV_REMINDER_SERVICE}/reminder/callback`, backSign]}
             // const interval = interval
             // const repeatCount = 2
             const tip = null
