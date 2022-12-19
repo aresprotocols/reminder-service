@@ -143,9 +143,9 @@ export const verifyReminderMsg = (options: VerifyOptions) => {
   return isValid
 }
 
-export const sendEmail = (toEmail:string, dataObj: ReminderData) => {
+export const sendEmail = (toEmail:string, reminder_id: string ,dataObj: ReminderData) => {
   return new Promise(async (resolve, reject) => {
-    console.log(`Send email to: ${toEmail}`)
+    console.log(`Send email to: ${toEmail}, reminder id = ${reminder_id}`)
     let transporter = nodemailer.createTransport({
       host: process.env.MAIL_HOST,
       port: process.env.MAIL_SMTP_PORT,
@@ -168,7 +168,7 @@ export const sendEmail = (toEmail:string, dataObj: ReminderData) => {
     }
 
     let info = await transporter.sendMail({
-      from: `"Price reminder has reached ${currentEmoji}" <${process.env.MAIL_AUTH_USER}>`, // sender address
+      from: `"Price reminder id ${reminder_id} has reached ${currentEmoji}" <${process.env.MAIL_AUTH_USER}>`, // sender address
       to: toEmail, // list of receivers
       subject: `[${dataObj.triggerCondition?.priceKey}] price reminder, has reached ${dataObj.triggerCondition?toFloatPrice(dataObj.triggerCondition.anchorPrice):'--'}`, // Subject line
       // text: `${dataObj.triggerCondition?.priceKey} price reminder:`, // plain text body
