@@ -322,6 +322,8 @@ function App() {
                         <td>区块高度</td>
                         <td>剩余次数</td>
                         <td>触发间隔</td>
+                        <td>交易对</td>
+                        <td>切片位置</td>
                         <td>触发条件</td>
                         <td>回调参数</td>
                         <td></td>
@@ -331,9 +333,10 @@ function App() {
                             <td>{data[1].createBn}</td>
                             <td>{data[1].repeatCount}</td>
                             <td>{data[1].intervalBn}</td>
+                            <td>{data[1].triggerCondition.TargetPriceModel.priceKey}</td>
+                            <td>从{convertToPrice(data[1].priceSnapshot.number, data[1].priceSnapshot.fractionLength)}到</td>
                             <td>
-                                {data[1].triggerCondition.TargetPriceModel.priceKey}
-                                [{convertToPrice(data[1].triggerCondition.TargetPriceModel.anchorPrice.number, data[1].triggerCondition.TargetPriceModel.anchorPrice.fractionLength)}]
+                                {convertToPrice(data[1].triggerCondition.TargetPriceModel.anchorPrice.number, data[1].triggerCondition.TargetPriceModel.anchorPrice.fractionLength)}
                             </td>
                             <td>
                                 {data[1].triggerReceiver.HttpCallBack.url}

@@ -6,7 +6,7 @@ CREATE TABLE `reminder_callback` (
   `trigger_acc` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `validator_acc` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `sign` varchar(255) COLLATE utf8mb4_unicode_ci NULL,
-  `ip` varchar(18) COLLATE utf8mb4_unicode_ci NULL,
+  `ip` varchar(25) COLLATE utf8mb4_unicode_ci NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY(`reminder_id`),
