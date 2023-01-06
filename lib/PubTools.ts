@@ -34,7 +34,7 @@ export function getCurrentDateTime() {
   const d_t = new Date();
 
   let year = d_t.getFullYear();
-  let month = d_t.getMonth();
+  let month = d_t.getMonth()+1;
   let day = d_t.getDate();
   let hour = d_t.getHours();
   let minute = d_t.getMinutes();

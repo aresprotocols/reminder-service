@@ -23,6 +23,40 @@ router.get('/test', (req: Request, res: Response) => {
   })
 });
 
+router.post('/has_bound_infos', (req: Request, res: Response) => {
+
+  const pubKey = req.body.pubKey
+  const dbPubKey = pubKey.slice(2)
+
+  try{
+    getDbConn().then(async (dbConn: Connection) => {
+      try {
+        let old_db_result = await dbConn.execute('SELECT * FROM db_reminder.reminder_users WHERE public_key=?', [dbPubKey])
+        // @ts-ignore
+        let old_data: any[] = old_db_result[0]
+        if (old_data.length > 0) {
+          res.send({
+            status: 'success',
+            data: true,
+          })
+        } else {
+          res.send({
+            status: 'success',
+            data: false,
+          })
+        }
+      } catch (err) {
+        res.send({
+          status: 'failed',
+          data: err
+        })
+      }
+    })
+  }catch (e: any) {
+    res.send({status: 'failed', data: e.toString()});
+  }
+});
+
 router.post('/bind_infos', (req: Request, res: Response) => {
   // console.log('req.body', req.body)
   const pubKey = req.body.pubKey
@@ -38,7 +72,6 @@ router.post('/bind_infos', (req: Request, res: Response) => {
           let old_db_result = await dbConn.execute('SELECT * FROM db_reminder.reminder_users WHERE public_key=?', [dbPubKey])
           // @ts-ignore
           let old_data: any[] = old_db_result[0]
-          console.log('old_data == ', old_data)
           const current_time = getCurrentDateTime()
           let db_result=null
           if (old_data.length > 0) {
@@ -62,6 +95,7 @@ router.post('/bind_infos', (req: Request, res: Response) => {
         } catch (err) {
           res.send({
             status: 'failed',
+            data: err
           })
         }
       })
