@@ -37,22 +37,30 @@ router.get('/callback', (req: Request, res: Response) => {
         validator_acc,
         validator_sign,
       }
-      console.log('####', verifyOptions)
-
       const verify = verifyReminderMsg(verifyOptions)
-
       if(verify){
         const dbValidatorAcc = validator_acc.slice(2)
+
+        // Check exists.
+        let old_db: any = await dbConn.execute('SELECT * FROM reminder_callback WHERE reminder_id=? AND reminder_bn=? AND link_bn=?', [reminder_id, reminder_bn, link_bn])
+
+        if(old_db && old_db[0].length > 0){
+          return res.send({
+            status: 'success',
+            data: 'sent before'
+          })
+        }
+
         let db_result = await dbConn.execute('INSERT INTO reminder_callback (reminder_id, reminder_bn, link_bn, trigger_acc, validator_acc, sign, ip, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             [reminder_id, reminder_bn, link_bn, trigger_acc, dbValidatorAcc, sign, ip, created_at]
         )
-        console.log('Reminder callback result = ', db_result)
+        // console.log('Reminder callback result = ', db_result)
         // Search registered user
         let db_user_result = await dbConn.execute('SELECT * FROM db_reminder.reminder_users WHERE public_key=?', [trigger_acc])
         // @ts-ignore
         let db_user_set: any[] = db_user_result[0]
-        dbConn.destroy()
 
+        dbConn.destroy()
         if (db_user_set.length == 0) {
           res.send({
             status: 'failed',

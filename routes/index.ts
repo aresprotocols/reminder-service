@@ -9,7 +9,7 @@ const express = require('express')
 const router = express.Router()
 
 router.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server');
+  res.send(`Reminder Mail Server`);
 });
 
 router.get('/test', (req: Request, res: Response) => {
@@ -33,15 +33,17 @@ router.post('/has_bound_infos', (req: Request, res: Response) => {
       try {
         let old_db_result = await dbConn.execute('SELECT * FROM db_reminder.reminder_users WHERE public_key=?', [dbPubKey])
         // @ts-ignore
-        let old_data: any[] = old_db_result[0]
-        if (old_data.length > 0) {
+        let old_data: {id: number, email: string}[] = old_db_result[0]
+        if (old_data.length > 0 && old_data[0].id > 0) {
           res.send({
             status: 'success',
+            email: req.session.logined?old_data[0].email:null,
             data: true,
           })
         } else {
           res.send({
             status: 'success',
+            email: null,
             data: false,
           })
         }
@@ -62,9 +64,12 @@ router.post('/bind_infos', (req: Request, res: Response) => {
   const pubKey = req.body.pubKey
   const signature = req.body.signature
   const email = req.body.email
+  // Set default value
+  req.session.logined = false
 
   try{
     const { isValid } = signatureVerify(email, signature, pubKey);
+
     if (isValid) {
       const dbPubKey = pubKey.slice(2)
       getDbConn().then(async (dbConn: Connection) => {
@@ -85,6 +90,9 @@ router.post('/bind_infos', (req: Request, res: Response) => {
                 [dbPubKey, email, current_time, current_time]
             )
           }
+
+          req.session.logined = true
+
           res.send({
             status: 'success',
             data: {

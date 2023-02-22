@@ -138,7 +138,7 @@ export const verifyReminderMsg = (options: VerifyOptions) => {
 // _s_=616161&_rid_=3&_rbn_=71&_lbn_=72&_acc_=8eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a48
   const msg = `_s_=${options.sign}&_rid_=${options.reminder_id}&_rbn_=${options.reminder_bn}&_lbn_=${options.link_bn}&_acc_=${options.trigger_acc}`
   console.debug('msg == ', msg, options.validator_sign, options.validator_acc)
-  // TODO::检查 validator_acc 账号是不是链上的验证人
+  // TODO::Check if the validator_acc account is a validator on the chain
   const { isValid } = signatureVerify(msg, options.validator_sign, options.validator_acc);
   return isValid
 }
@@ -159,7 +159,7 @@ export const sendEmail = (toEmail:string, reminder_id: string ,dataObj: Reminder
     const emojiUp = '🔺'
     const emojiDown = '🔻'
     let currentEmoji = '❓'
-    if(dataObj.triggerCondition?.anchorPrice && dataObj.priceSnapshot){
+    if(dataObj.triggerCondition && dataObj.triggerCondition.anchorPrice && dataObj.priceSnapshot){
       if(toFloatPrice(dataObj.triggerCondition.anchorPrice)> toFloatPrice(dataObj.priceSnapshot)){
         currentEmoji = emojiUp
       }else{
