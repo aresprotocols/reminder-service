@@ -143,7 +143,7 @@ export const verifyReminderMsg = (options: VerifyOptions) => {
   return isValid
 }
 
-export const sendEmail = (toEmail:string, reminder_id: string ,dataObj: ReminderData) => {
+export const sendEmail = (toEmail:string, reminder_id: string ,dataObj: ReminderData, call_sign: string) => {
   return new Promise(async (resolve, reject) => {
     console.log(`Send email to: ${toEmail}, reminder id = ${reminder_id}`)
     let transporter = nodemailer.createTransport({
@@ -168,7 +168,7 @@ export const sendEmail = (toEmail:string, reminder_id: string ,dataObj: Reminder
     }
 
     let info = await transporter.sendMail({
-      from: `"Price reminder id ${reminder_id} has reached ${currentEmoji}" <${process.env.MAIL_AUTH_USER}>`, // sender address
+      from: `"Price reminder sign: ${call_sign} id: ${reminder_id} has reached ${currentEmoji}" <${process.env.MAIL_AUTH_USER}>`, // sender address
       to: toEmail, // list of receivers
       subject: `[${dataObj.triggerCondition?.priceKey}] price reminder, has reached ${dataObj.triggerCondition?toFloatPrice(dataObj.triggerCondition.anchorPrice):'--'}`, // Subject line
       // text: `${dataObj.triggerCondition?.priceKey} price reminder:`, // plain text body
@@ -276,7 +276,7 @@ export const makeTriggerEmailContent = (obj: ReminderData): string => {
   return `
     <p>Trigger owner: ${obj.owner} [${u8aToHex(decodeAddress(obj.owner))}]</p>
     <p>Anchor price: ${obj.triggerCondition?toFloatPrice(obj.triggerCondition.anchorPrice):'--'} has arrived on ${obj?.updateBn} (BlockNumber).</p>
-    <p>Remaining notices times: ${obj.repeatCount}.</p>
+    <p>Remaining notices times: ${obj.repeatCount-1}.</p>
     <p>Minimum interval: ${obj.intervalBn} (BlockNumber)</p>
   `
 }
