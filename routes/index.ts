@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import {signatureVerify} from "@polkadot/util-crypto";
 import {Connection} from "mysql2";
 import {getCurrentDateTime} from "../lib/PubTools";
+import {REMINDER_VERIFICATION_MSG} from "../lib/ReminerConfig";
 dotenv.config();
 const {getDbConn} = require('../lib/DbOperation')
 const express = require('express')
@@ -58,6 +59,33 @@ router.post('/has_bound_infos', (req: Request, res: Response) => {
     res.send({status: 'failed', data: e.toString()});
   }
 });
+
+router.post('/login', (req: Request, res: Response) => {
+  const pubKey = req.body.pubKey
+  const signature = req.body.signature
+  const msg = req.body.msg
+  req.session.logined = false
+
+  if(msg != REMINDER_VERIFICATION_MSG) {
+    return res.send({
+      status: 'failed',
+      data: `Need signature message: ${REMINDER_VERIFICATION_MSG}`
+    })
+  }
+  const { isValid } = signatureVerify(msg, signature, pubKey);
+  if(isValid){
+    req.session.logined = true
+    return res.send({
+      status: 'success',
+      data: true
+    })
+  }else{
+    return res.send({
+      status: 'failed',
+      data: `Invalid signature.`
+    })
+  }
+})
 
 router.post('/bind_infos', (req: Request, res: Response) => {
   // console.log('req.body', req.body)

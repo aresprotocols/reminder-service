@@ -70,7 +70,8 @@ router.get('/callback', (req: Request, res: Response) => {
           const db_user = db_user_set[0]
           // get trigger info.
           const trigger_info = await getTriggerInfoByChain(reminder_id, link_bn)
-          await sendEmail(db_user.email, reminder_id, trigger_info, sign);
+          console.log('trigger_info')
+          await sendEmail(db_user.email, reminder_id, trigger_info);
           res.send({
             status: 'success',
           })
