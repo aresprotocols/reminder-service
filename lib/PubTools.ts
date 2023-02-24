@@ -168,7 +168,7 @@ export const sendEmail = (toEmail:string, reminder_id: string ,dataObj: Reminder
     }
 
     let info = await transporter.sendMail({
-      from: `"Price reminder #${dataObj.tip}# id: ${reminder_id} has reached ${currentEmoji}" <${process.env.MAIL_AUTH_USER}>`, // sender address
+      from: `"Price reminder #${dataObj.tip}# id: ${reminder_id} has reached ${currentEmoji}" on ${dataObj.triggerCondition?toFloatPrice(dataObj.triggerCondition.anchorPrice):'--'} <${process.env.MAIL_AUTH_USER}>`, // sender address
       to: toEmail, // list of receivers
       subject: `[${dataObj.triggerCondition?.priceKey}], #${dataObj.tip}# has reached ${dataObj.triggerCondition?toFloatPrice(dataObj.triggerCondition.anchorPrice):'--'}`, // Subject line
       // text: `${dataObj.triggerCondition?.priceKey} price reminder:`, // plain text body
@@ -257,8 +257,6 @@ export const getTriggerInfoByChain = (rid: string|number, lbn: string|number): P
         // @ts-ignore
         tip: reminderJson.tip,
       }
-
-      console.log("reminder_data == ", reminder_data)
       resolve(reminder_data)
     }else{
       reject(null)
