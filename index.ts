@@ -33,7 +33,7 @@ app.use(session({
 app.use(bodyParser())
 app.use(bodyParser.raw({
     inflate: true,
-    limit: '100kb',
+    limit: '500kb',
     type: '*/*'
 }))
 app.use(cookieParser())

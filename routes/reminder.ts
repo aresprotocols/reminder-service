@@ -1,10 +1,10 @@
-import {query, Request, Response} from "express"
+import {Request, Response} from "express"
 import dotenv from 'dotenv';
 import {Connection, Pool} from "mysql2";
 import {
   extractReminderAcc,
   extractReminderSignature,
-  getCurrentDateTime, getTriggerInfoByChain, makeTriggerEmailContent,
+  getCurrentDateTime, getTriggerInfoByChain,
   sendEmail, VerifyOptions,
   verifyReminderMsg
 } from "../lib/PubTools";
@@ -51,10 +51,10 @@ router.get('/callback', (req: Request, res: Response) => {
           })
         }
 
-        let db_result = await dbConn.execute('INSERT INTO reminder_callback (reminder_id, reminder_bn, link_bn, trigger_acc, validator_acc, sign, ip, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        let _db_result = await dbConn.execute('INSERT INTO reminder_callback (reminder_id, reminder_bn, link_bn, trigger_acc, validator_acc, sign, ip, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             [reminder_id, reminder_bn, link_bn, trigger_acc, dbValidatorAcc, sign, ip, created_at]
         )
-        // console.log('Reminder callback result = ', db_result)
+
         // Search registered user
         let db_user_result = await dbConn.execute('SELECT * FROM db_reminder.reminder_users WHERE public_key=?', [trigger_acc])
         // @ts-ignore
@@ -100,6 +100,5 @@ router.get('/callback', (req: Request, res: Response) => {
   })
 
 });
-
 
 module.exports = router;

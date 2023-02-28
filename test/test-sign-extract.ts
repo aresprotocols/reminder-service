@@ -13,28 +13,7 @@ var assert = require('assert');
 
 describe('Verity sign infos', function () {
 
-  // it('Get MultiSigner data', function () {
-  //   let res = extractReminderAcc('MultiSigner::Sr25519(d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d (5GrwvaEF...))')
-  //   assert.equal(res, '0xd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d')
-  // });
-  //
-  // it('Get MultiSignature data', function () {
-  //   let res = extractReminderSignature('MultiSignature::Sr25519(0ee0008ccdc97be755ae50f2081a87d3b5587ba342b8a46d984c86424372431d2c354a9e09159fad3a43bb40948241e90a63c9ec7794dca9ef12a80aed76cc8f)')
-  //   assert.equal(res, '0x0ee0008ccdc97be755ae50f2081a87d3b5587ba342b8a46d984c86424372431d2c354a9e09159fad3a43bb40948241e90a63c9ec7794dca9ef12a80aed76cc8f')
-  // });
-
-  // #### 3 1315 1316 aaa ::1 2022-11-5 8:16:12 MultiSigner::Sr25519(d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d (5GrwvaEF...)) MultiSignature::Sr25519(8e8e0e38ebf068e2c8703e2877bd52f2a806b103cf204f1d1c69d3448b095b2fcec0e3dc5ec82947f45e163f8de1eff9e440f5983bb3dec9a53bf7711930fc80)
   it('Verity msg', function () {
-
-    // const verifyOptions: VerifyOptions = {
-    //   sign: '',
-    //   reminder_id: '2',
-    //   reminder_bn: '411',
-    //   link_bn: '412',
-    //   trigger_acc: '8eaf04151687736326c9fea17e25fc5287613693c912909cb226aa4794f26a48',
-    //   validator_acc: '0x01d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d',
-    //   validator_sign: '0x01c8607142f10a72f1105bd83344714eead5f78cbbe50adbc9bd9583a966f55a7bdfd4b4d9950db85af0a0c5d6e80bea61204f92e4bf303fcd6947127fa305f88d'
-    // }
 
     const verifyOptions: VerifyOptions = {
       sign: '616161',
@@ -86,9 +65,3 @@ describe('Verity sign infos', function () {
 
 
 });
-
-
-
-
-
-// #### 5 8133 8134 aaa ::1 2022-11-5 8:16:24 MultiSigner::Sr25519(d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d (5GrwvaEF...)) MultiSignature::Sr25519(da2deba8f60d7910f0efd00ba2071af9bbdaef2c9f76eaada29edcabea58164db5bd64ac3b4f4c1b17e2ed7857fdf9847c24be269d8d46fe4edd1ba20544b880)

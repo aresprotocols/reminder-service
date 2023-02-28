@@ -1,4 +1,5 @@
 import {
+    ReminderData,
     sendEmail,
 } from "../lib/PubTools";
 import {Done} from "mocha";
@@ -25,7 +26,7 @@ describe('Email sender', function () {
             updateBn: '1307',
             tip: null
         }
-        sendEmail('630086711@qq.com', "1", emailContent, 'my-sign').then(res => {
+        sendEmail('630086711@qq.com', "1", emailContent).then(res => {
             done()
         })
     });

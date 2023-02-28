@@ -13,16 +13,16 @@ router.get('/', (req: Request, res: Response) => {
   res.send(`Reminder Mail Server`);
 });
 
-router.get('/test', (req: Request, res: Response) => {
-  let msg = '&_rid_=0&_rbn_=10&_lbn_=10'
-  let signature = '0xae3be5069441be0dc1370af333fd4180d548149a2f0a04b881b6e69564d6f15244b4ff6954dc0c6bcafbd099b2e53f9c769c5d73877bc6b5d3794713d28b1988'
-  let pubKey = '0x06c41c243c74294cc515287c118e80bd73a8dbc7979ed008b18369742a11811a'
-  // let pubKey = '0xd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d'
-  const { isValid } = signatureVerify(msg, signature, pubKey);
-  res.send({
-    isValid
-  })
-});
+// router.get('/test', (req: Request, res: Response) => {
+//   let msg = '&_rid_=0&_rbn_=10&_lbn_=10'
+//   let signature = '0xae3be5069441be0dc1370af333fd4180d548149a2f0a04b881b6e69564d6f15244b4ff6954dc0c6bcafbd099b2e53f9c769c5d73877bc6b5d3794713d28b1988'
+//   let pubKey = '0x06c41c243c74294cc515287c118e80bd73a8dbc7979ed008b18369742a11811a'
+//   // let pubKey = '0xd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d'
+//   const { isValid } = signatureVerify(msg, signature, pubKey);
+//   res.send({
+//     isValid
+//   })
+// });
 
 router.post('/has_bound_infos', (req: Request, res: Response) => {
 
