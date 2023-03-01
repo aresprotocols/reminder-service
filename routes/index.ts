@@ -53,6 +53,8 @@ router.post('/has_bound_infos', (req: Request, res: Response) => {
           status: 'failed',
           data: err
         })
+      } finally {
+        dbConn.end()
       }
     })
   }catch (e: any) {
@@ -133,6 +135,8 @@ router.post('/bind_infos', (req: Request, res: Response) => {
             status: 'failed',
             data: err
           })
+        } finally {
+          dbConn.end()
         }
       })
     }
