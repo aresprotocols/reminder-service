@@ -1413,9 +1413,9 @@
   "version" "4.0.0"
 
 "date-fns@^2.16.1":
-  "integrity" "sha512-dlLD5rKaKxpFdnjrs+5azHDFOPEu4ANy/LTh04A1DTzMM7qoajmKCBc8pkKRFT41CNzw+4gQh79X5C+Jq27HAw=="
-  "resolved" "https://registry.npmjs.org/date-fns/-/date-fns-2.29.1.tgz"
-  "version" "2.29.1"
+  "integrity" "sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA=="
+  "resolved" "https://registry.npmjs.org/date-fns/-/date-fns-2.29.3.tgz"
+  "version" "2.29.3"
 
 "debug@^2.2.0", "debug@2.6.9":
   "integrity" "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="
@@ -3758,9 +3758,9 @@
   "version" "1.2.2"
 
 "tslib@^2.1.0":
-  "integrity" "sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ=="
-  "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.4.0.tgz"
-  "version" "2.4.0"
+  "integrity" "sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg=="
+  "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.5.0.tgz"
+  "version" "2.5.0"
 
 "tunnel-agent@^0.6.0":
   "integrity" "sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w=="
